@@ -1,5 +1,6 @@
 package com.example.conferencedemo.services;
 
+import com.example.conferencedemo.mappers.AvoidCyclicMapping;
 import com.example.conferencedemo.mappers.SessionMapper;
 import com.example.conferencedemo.models.Session;
 import com.example.conferencedemo.models.SessionJson;
@@ -28,7 +29,7 @@ public class SessionServiceImpl implements SessionService {
             session = sessionRepository.findById(sessionId).get();
         }
         if(session != null) {
-            sessionJson = sessionMapper.sessionToSessionJson(session);
+            sessionJson = sessionMapper.sessionToSessionJson(session, new AvoidCyclicMapping());
         }
         return sessionJson;
     }
@@ -36,13 +37,13 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public List<SessionJson> getSessionList() {
         List<SessionJson> sessionList = new ArrayList<>();
-        sessionRepository.findAll().forEach(session -> sessionList.add(sessionMapper.sessionToSessionJson(session)));
+        sessionRepository.findAll().forEach(session -> sessionList.add(sessionMapper.sessionToSessionJson(session, new AvoidCyclicMapping())));
         return sessionList;
     }
 
     @Override
     public SessionJson addSession(SessionJson sessionJson) {
-        Session session = sessionRepository.save(sessionMapper.sessionJsonToSession(sessionJson));
-        return sessionMapper.sessionToSessionJson(session);
+        Session session = sessionRepository.save(sessionMapper.sessionJsonToSession(sessionJson, new AvoidCyclicMapping()));
+        return sessionMapper.sessionToSessionJson(session, new AvoidCyclicMapping());
     }
 }

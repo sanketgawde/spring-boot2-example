@@ -1,5 +1,6 @@
 package com.example.conferencedemo.services;
 
+import com.example.conferencedemo.mappers.AvoidCyclicMapping;
 import com.example.conferencedemo.mappers.SpeakerMapper;
 import com.example.conferencedemo.models.Speaker;
 import com.example.conferencedemo.models.SpeakerJson;
@@ -29,7 +30,7 @@ public class SpeakerServiceImpl implements SpeakerService {
             speaker = speakerRepository.findById(speakerId).get();
         }
         if(speaker != null) {
-            speakerJson = speakerMapper.speakerToSpeakerJson(speaker);
+            speakerJson = speakerMapper.speakerToSpeakerJson(speaker, new AvoidCyclicMapping());
         }
         return speakerJson;
     }
@@ -37,13 +38,13 @@ public class SpeakerServiceImpl implements SpeakerService {
     @Override
     public List<SpeakerJson> getSpeakerList() {
         List<SpeakerJson> speakerList = new ArrayList<>();
-        speakerRepository.findAll().forEach(speaker -> speakerList.add(speakerMapper.speakerToSpeakerJson(speaker)));
+        speakerRepository.findAll().forEach(speaker -> speakerList.add(speakerMapper.speakerToSpeakerJson(speaker, new AvoidCyclicMapping())));
         return speakerList;
     }
 
     @Override
     public SpeakerJson addSpeaker(SpeakerJson speakerJson) {
-        Speaker speaker = speakerRepository.save(speakerMapper.speakerJsonToSpeaker(speakerJson));
-        return speakerMapper.speakerToSpeakerJson(speaker);
+        Speaker speaker = speakerRepository.save(speakerMapper.speakerJsonToSpeaker(speakerJson, new AvoidCyclicMapping()));
+        return speakerMapper.speakerToSpeakerJson(speaker, new AvoidCyclicMapping());
     }
 }

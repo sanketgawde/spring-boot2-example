@@ -1,5 +1,6 @@
 package com.example.conferencedemo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public class SessionJson {
     private String session_name;
     private String session_description;
     private Integer session_length;
+
+    @JsonIgnore
     private List<SpeakerJson> speakers;
 
     public Long getSession_id() {
