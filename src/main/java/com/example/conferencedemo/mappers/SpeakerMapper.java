@@ -1,14 +1,17 @@
 package com.example.conferencedemo.mappers;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
 import com.example.conferencedemo.models.Speaker;
 import com.example.conferencedemo.models.SpeakerJson;
-import org.mapstruct.Context;
-import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SpeakerMapper {
+	
+	SpeakerMapper INSTANCE = Mappers.getMapper(SpeakerMapper.class);
+	
+	abstract Speaker speakerJsonToSpeaker(SpeakerJson speakerJson);
 
-    Speaker speakerJsonToSpeaker(SpeakerJson speakerJson,  @Context AvoidCyclicMapping context);
-
-    SpeakerJson speakerToSpeakerJson(Speaker speaker,  @Context AvoidCyclicMapping context);
+	SpeakerJson speakerToSpeakerJson(Speaker speaker);
 }

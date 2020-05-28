@@ -1,14 +1,18 @@
 package com.example.conferencedemo.mappers;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
 import com.example.conferencedemo.models.Session;
 import com.example.conferencedemo.models.SessionJson;
-import org.mapstruct.Context;
-import org.mapstruct.Mapper;
 
-@Mapper
-public interface SessionMapper  {
+@Mapper(componentModel = "spring")
+public interface SessionMapper {
+	
+	SessionMapper INSTANCE = Mappers.getMapper(SessionMapper.class);
 
-    Session sessionJsonToSession(SessionJson sessionJson, @Context AvoidCyclicMapping context);
+	public abstract Session sessionJsonToSession(SessionJson sessionJson);
 
-    SessionJson sessionToSessionJson(Session session, @Context AvoidCyclicMapping context);
+	public abstract SessionJson sessionToSessionJson(Session session);
+
 }
